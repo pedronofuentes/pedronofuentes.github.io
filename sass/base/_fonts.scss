@@ -1,0 +1,20 @@
+@font-face{ 
+	font-family: 'ChunkFive';
+	src: url('/fonts/chunkfive.eot');
+	src: url('/fonts/chunkfive.eot?#iefix') format('embedded-opentype'),
+	     url('/fonts/chunkfive.woff') format('woff'),
+	     url('/fonts/chunkfive.ttf') format('truetype'),
+	     url('/fonts/chunkfive.svg#webfont') format('svg');
+}
+
+@include font-face("Mono Social Icons Font", font-files("MonoSocialIconsFont-1.10.woff", "MonoSocialIconsFont-1.10.ttf", "MonoSocialIconsFont-1.10.svg#MonoSocialIconsFont"), "MonoSocialIconsFont-1.10.eot", normal, normal);
+
+.symbol, a.symbol:before {
+    font-family: 'Mono Social Icons Font';
+    -webkit-text-rendering: optimizeLegibility;
+    -moz-text-rendering: optimizeLegibility;
+    -ms-text-rendering: optimizeLegibility;
+    -o-text-rendering: optimizeLegibility;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}

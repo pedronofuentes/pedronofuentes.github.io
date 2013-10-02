@@ -1,0 +1,16 @@
+---
+layout: post
+title: "It's alive!!!"
+date: 2013-09-27 11:15
+comments: true
+categories: 
+main_image_src: "posts/it-s-alive.jpg"
+main_image_index_src: "posts/it-s-alive-min.jpg"
+---
+
+
+After much time thinking about writing a blog, finally it's alive! As it's my personal blog I will write about stuff that interests me :) Concretely I want to write about coding, problems that I find, tips and the big amount of stuff that I would learn.
+
+My main development stack is PHP, Javascript, HTML, CSS, LESS… but I love to try new languages, tools, ways to solve problems, etc.
+
+This is because I built the blog with [Octopress](http://octopress.org). I based my theme in the classic theme and used [Foundation](http://foundation.zurb.com) as a bootstrap. I called [Octozurb](https://github.com/pedronofuentes/octozurb) (I know, it isn't quite original) and if you want fork it, but please, let me learn from your improvements.

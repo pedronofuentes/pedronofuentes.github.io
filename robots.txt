@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://pedronofuentes.github.io/sitemap.xml 

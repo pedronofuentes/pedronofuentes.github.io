@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://pedronofuentes.github.io/sitemap.xml 
+Sitemap: http://pedro.nofuent.es/sitemap.xml 

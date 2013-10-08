@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Pedro Nofuentes]]></title>
-  <link href="http://pedronofuentes.github.io/atom.xml" rel="self"/>
-  <link href="http://pedronofuentes.github.io/"/>
-  <updated>2013-10-02T23:03:56+02:00</updated>
-  <id>http://pedronofuentes.github.io/</id>
+  <link href="http://pedro.nofuent.es/atom.xml" rel="self"/>
+  <link href="http://pedro.nofuent.es/"/>
+  <updated>2013-10-08T17:37:57+02:00</updated>
+  <id>http://pedro.nofuent.es/</id>
   <author>
     <name><![CDATA[Pedro Nofuentes]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[It's alive!!!]]></title>
-    <link href="http://pedronofuentes.github.io/blog/2013/09/27/it-s-alive/"/>
+    <link href="http://pedro.nofuent.es/blog/2013/09/27/it-s-alive/"/>
     <updated>2013-09-27T11:15:00+02:00</updated>
-    <id>http://pedronofuentes.github.io/blog/2013/09/27/it-s-alive</id>
+    <id>http://pedro.nofuent.es/blog/2013/09/27/it-s-alive</id>
     <content type="html"><![CDATA[<p>After much time thinking about writing a blog, finally it&rsquo;s alive! As it&rsquo;s my personal blog I will write about stuff that interests me :) Concretely I want to write about coding, problems that I find, tips and the big amount of stuff that I would learn.</p>
 
 <p>My main development stack is PHP, Javascript, HTML, CSS, LESS… but I love to try new languages, tools, ways to solve problems, etc.</p>

@@ -1,19 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://pedronofuentes.github.io/blog/2013/09/27/it-s-alive/</loc>
+        <loc>http://pedro.nofuent.es/blog/2013/09/27/it-s-alive/</loc>
         <lastmod>2013-10-02T17:32:24+02:00</lastmod>
     </url>
     <url>
-        <loc>http://pedronofuentes.github.io/blog/archives/</loc>
+        <loc>http://pedro.nofuent.es/blog/archives/</loc>
         <lastmod>2013-10-02T17:32:24+02:00</lastmod>
     </url>
     <url>
-        <loc>http://pedronofuentes.github.io/</loc>
+        <loc>http://pedro.nofuent.es/</loc>
         <lastmod>2013-10-02T17:32:24+02:00</lastmod>
     </url>
     <url>
-        <loc>http://pedronofuentes.github.io/robots.txt</loc>
+        <loc>http://pedro.nofuent.es/robots.txt</loc>
         <lastmod>2013-09-26T23:39:31+02:00</lastmod>
     </url>
 </urlset>

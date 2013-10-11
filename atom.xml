@@ -4,7 +4,7 @@
   <title><![CDATA[Pedro Nofuentes]]></title>
   <link href="http://pedro.nofuent.es/atom.xml" rel="self"/>
   <link href="http://pedro.nofuent.es/"/>
-  <updated>2013-10-08T17:37:57+02:00</updated>
+  <updated>2013-10-11T17:42:13+02:00</updated>
   <id>http://pedro.nofuent.es/</id>
   <author>
     <name><![CDATA[Pedro Nofuentes]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Un vistazo a Xdebug]]></title>
+    <link href="http://pedro.nofuent.es/blog/2013/10/11/un-vistazo-a-xdebug/"/>
+    <updated>2013-10-11T17:15:00+02:00</updated>
+    <id>http://pedro.nofuent.es/blog/2013/10/11/un-vistazo-a-xdebug</id>
+    <content type="html"><![CDATA[<p>El pasado viernes 4 de octubre estuve en la reunión mensual de <a href="https://twitter.com/Symfony_VLC">@Symfony_VLC</a> dando una charla sobre Xdebug. No es que sea un <em>ninja</em>, pero es una herramienta que me facilita bastante algunas cosas del trabajo diario.</p>
+
+<p>Una de las cosas para las que viene bien es que te obliga a indagar un poco más, sea repasándote la documentación o viendo algunos posts.</p>
+
+<p>Para la preparación de la charla encontré algunos enlaces que me parecen interesantes (aparte de la <a href="http://xdebug.org/docs/">documentación</a>):</p>
+
+<ul>
+<li> <a href="http://devincharge.com/debug-cli-remote-server/">Debug PHP CLI on Remote Server with Xdebug and PHPStorm</a></li>
+<li> <a href="http://mark-story.com/posts/view/remote-debugging-with-vim-and-xdebug">Remote debugging with vim and xdebug</a></li>
+<li> <a href="https://github.com/joonty/vdebug">Vdebug</a></li>
+</ul>
+
+
+<p>En la charla mostré un pequeño ejemplo de cómo configurar Xdebug con PHPStorm en un servidor de <a href="https://github.com/pedronofuentes/symfonyvalencia-vagrant">desarrollo montado sobre Vagrant</a>. Al archivo de configuración de Puppet del repositorio hay que añadirle la configuración de la IP del host remoto:</p>
+
+<figure class='code'><figcaption><span>maifests/default.pp</span><a href='https://github.com/pedronofuentes/symfonyvalencia-vagrant/blob/master/manifests/default.pp'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>puphpet::ini { 'xdebug':
+</span><span class='line'>     value =&gt; [
+</span><span class='line'>          …
+</span><span class='line'>          'debug.remote_host = 192.168.56.1',
+</span><span class='line'>          …
+</span><span class='line'>     ],
+</span><span class='line'>     ini     =&gt; '/etc/php5/conf.d/zzz_xdebug.ini',
+</span><span class='line'>     notify     =&gt; Service['apache'],
+</span><span class='line'>     require      =&gt; Class['php'],
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&mdash;</p>
+
+<script async class="speakerdeck-embed" data-id="813b5e50140601318e8326b064201532" data-ratio="1.33333333333333" src="http://pedro.nofuent.es//speakerdeck.com/assets/embed.js"></script>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[It's alive!!!]]></title>

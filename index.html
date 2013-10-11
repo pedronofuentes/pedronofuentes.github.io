@@ -9,7 +9,7 @@
   <meta name="author" content="Pedro Nofuentes">
 
   
-  <meta name="description" content="After much time thinking about writing a blog, finally it&rsquo;s alive! As it&rsquo;s my personal blog I will write about stuff that interests me &hellip;">
+  <meta name="description" content="El pasado viernes 4 de octubre estuve en la reunión mensual de @Symfony_VLC dando una charla sobre Xdebug. No es que sea un ninja, pero es una &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,6 +83,87 @@
     <div id="content" class="small-12 large-8 large-offset-2 columns">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/11/un-vistazo-a-xdebug/">Un vistazo a Xdebug</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-11T17:15:00+02:00" pubdate data-updated="true">Oct 11<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  <img class="main-image left" src="/images/posts/un-vistazo-a-xdebug-min.jpg">
+  
+  <div class="entry-content"><p>El pasado viernes 4 de octubre estuve en la reunión mensual de <a href="https://twitter.com/Symfony_VLC">@Symfony_VLC</a> dando una charla sobre Xdebug. No es que sea un <em>ninja</em>, pero es una herramienta que me facilita bastante algunas cosas del trabajo diario.</p>
+
+<p>Una de las cosas para las que viene bien es que te obliga a indagar un poco más, sea repasándote la documentación o viendo algunos posts.</p>
+
+<p>Para la preparación de la charla encontré algunos enlaces que me parecen interesantes (aparte de la <a href="http://xdebug.org/docs/">documentación</a>):</p>
+
+<ul>
+<li> <a href="http://devincharge.com/debug-cli-remote-server/">Debug PHP CLI on Remote Server with Xdebug and PHPStorm</a></li>
+<li> <a href="http://mark-story.com/posts/view/remote-debugging-with-vim-and-xdebug">Remote debugging with vim and xdebug</a></li>
+<li> <a href="https://github.com/joonty/vdebug">Vdebug</a></li>
+</ul>
+
+
+<p>En la charla mostré un pequeño ejemplo de cómo configurar Xdebug con PHPStorm en un servidor de <a href="https://github.com/pedronofuentes/symfonyvalencia-vagrant">desarrollo montado sobre Vagrant</a>. Al archivo de configuración de Puppet del repositorio hay que añadirle la configuración de la IP del host remoto:</p>
+
+<figure class='code'><figcaption><span>maifests/default.pp</span><a href='https://github.com/pedronofuentes/symfonyvalencia-vagrant/blob/master/manifests/default.pp'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>puphpet::ini { 'xdebug':
+</span><span class='line'>     value =&gt; [
+</span><span class='line'>          …
+</span><span class='line'>          'debug.remote_host = 192.168.56.1',
+</span><span class='line'>          …
+</span><span class='line'>     ],
+</span><span class='line'>     ini     =&gt; '/etc/php5/conf.d/zzz_xdebug.ini',
+</span><span class='line'>     notify     =&gt; Service['apache'],
+</span><span class='line'>     require      =&gt; Class['php'],
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&mdash;</p>
+
+<script async class="speakerdeck-embed" data-id="813b5e50140601318e8326b064201532" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+
+
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>

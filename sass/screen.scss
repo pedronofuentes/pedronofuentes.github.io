@@ -1,5 +1,21 @@
 @import "compass";
-@import "foundation";
+@include global-reset;
 
 @import "base";
+
+@import "custom/fonts";
+
+@import "settings";
+@import "vendor/foundation/normalize";
+@import "vendor/foundation/foundation";
+@import "vendor/fontawesome/font-awesome";
+
+@import "custom/colors";
+
 @import "partials";
+@import "plugins/**/*";
+@import "custom/styles";
+@import "custom/typography";
+@import "custom/layout";
+@import "custom/social";
+@import "custom/sidebar";

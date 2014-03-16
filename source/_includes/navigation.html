@@ -1,22 +1,9 @@
-<div class="nav small-12 large-8 large-offset-2 columns">
-  <div class="row">
-    <ul class="main-navigation small-8 large-8 columns inline-list">
-      <li><a href="{{ root_url }}/">Blog</a></li>
-      <li><a href="{{ root_url }}/blog/archives">Archives</a></li>
-    </ul>
-    <!-- <ul class="subscription small-2 large-2 columns" data-subscription="rss{% if site.subscribe_email %} email{% endif %}">
-      <li><a href="{{ site.subscribe_rss }}" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-      {% if site.subscribe_email %}
-        <li><a href="{{ site.subscribe_email }}" rel="subscribe-email" title="subscribe via email">Email</a></li>
-      {% endif %}
-    </ul> -->
-      {% if site.simple_search %}
-    <div class="search small-4 large-4 columns">
-      <form action="{{ site.simple_search }}" method="get">
-        <input type="hidden" name="q" value="site:{{ site.url | shorthand_url }}" />
-        <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-      </form>
-    </div>
-      {% endif %}
-  </div>
-</div>
+{% include custom/navigation.html %}
+  {% if site.simple_search %}
+<form action="{{ site.simple_search }}" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:{{ site.url | shorthand_url }}" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  {% endif %}

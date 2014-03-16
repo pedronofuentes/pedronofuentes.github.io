@@ -1,0 +1,42 @@
+.sidebar {
+  margin-top: 2em;
+
+  h1 { font-size: $h1-font-size - rem-calc(15); }
+  h2 { font-size: $h2-font-size - rem-calc(15); }
+  h3 { font-size: $h3-font-size - rem-calc(10); }
+  h4 { font-size: $h4-font-size - rem-calc(10); }
+  h5 { font-size: $h5-font-size; }
+  h6 { font-size: $h6-font-size; }
+
+  @media #{$large-up} {
+    h1 { font-size: $h1-font-size - rem-calc(10); }
+    h2 { font-size: $h2-font-size - rem-calc(10); }
+    h3 { font-size: $h3-font-size - rem-calc(5); }
+    h4 { font-size: $h4-font-size - rem-calc(5); }
+    h5 { font-size: $h5-font-size; }
+    h6 { font-size: $h6-font-size; }
+  }
+}
+
+#recent_posts,
+#gh_repos {
+  margin-left: 0;
+
+  font-family: $sans;
+  font-size: rem-calc(18);
+  line-height: 1.8em;
+
+  li {
+    list-style: none;
+    margin-bottom: .4em;
+
+    a {
+      display: block;
+    }
+    p {
+      font-family: $serif;
+      font-size: rem-calc(16);
+    }
+  }
+}
+

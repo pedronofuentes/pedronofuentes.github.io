@@ -1,14 +1,29 @@
 {% capture root_url %}{{ site.root | strip_slash }}{% endcapture %}
 {% include head.html %}
 <body {% if page.body_id %} id="{{ page.body_id }}" {% endif %} {% if page.sidebar == false %} class="no-sidebar" {% endif %} {% if page.sidebar == 'collapse' or site.sidebar == 'collapse' %} class="collapse-sidebar sidebar-footer" {% endif %}>
-  <header role="banner" class="row">{% include header.html %}</header>
-  <nav role="navigation" class="row">{% include navigation.html %}</nav>
-  <div id="main" class="row">
-    <div id="content" class="small-12 large-8 large-offset-2 columns">
-      {{ content | expand_urls: root_url }}
+  {% include custom/topbar.html %}
+  <div class="row">
+    <div id="header">
+      <header role="banner">{% include header.html %}</header>
+      {% include custom/social.html %}
+      <nav role="navigation">{% include navigation.html %}</nav>
+    </div>
+    <div id="main">
+      {% include custom/social.html %}
+      <div id="content">
+        {{ content | expand_urls: root_url }}
+      </div>
     </div>
   </div>
-  <footer role="contentinfo" class="row">{% include footer.html %}</footer>
-  {% include after_footer.html %}
+  <div class="row">
+    <footer id="footer" role="contentinfo">{% include footer.html %}</footer>
+    {% include after_footer.html %}
+  </div>
+
+  <script src="{{ root_url }}/javascripts/libs/fastclick.js"></script>
+  <script src="{{ root_url }}/javascripts/libs/foundation.min.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
 </body>
 </html>

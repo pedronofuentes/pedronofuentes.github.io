@@ -1,2 +1,77 @@
 // This File is imported last, and will override other styles in the cascade
 // Add styles here to make changes without digging in too much
+
+.top-bar .name h1.site-title {
+  a {
+    color: $primary-color;
+  }
+}
+
+.site-subtitle {
+  font-size: 1.4rem;
+  font-weight: normal;
+}
+
+$side-nav-link-color: $body-font-color;
+$side-nav-link-color-active: $primary-color;
+$side-nav-list-margin: 0;
+
+#header .main-navigation {
+  @include side-nav($font-size:2rem);
+
+  border-style: solid;
+  border-color: $body-font-color;
+  border-width: 1px 0;
+}
+
+.blog-index,
+#blog-archives {
+  article {
+    margin-bottom: 1em;
+  }
+
+  article + article {
+    padding-top: 2rem;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAABCAYAAACsXeyTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAFUlEQVQIHWNIS0sr/v//PwMMDzY+ADqMahlW4J91AAAAAElFTkSuQmCC') top left repeat-x;
+  }
+}
+
+article {
+  header {
+    .meta {
+      margin-bottom: 0;
+      line-height: 1rem;
+    }
+  }
+
+  .meta {
+    margin-top: 1rem;
+    color: $gray-color;
+  }
+
+  .post-navitagion {
+    font-family: $sans;
+  }
+  
+  .byline + time:before, time +time:before, .comments:before, .byline ~ .categories:before {
+    @extend .separator;
+  }
+
+  .main-image {
+    margin-bottom: 1em;
+  }
+
+  img.main-image {
+    margin-bottom: .8em;
+    margin-right: 1.5em;
+  }
+}
+
+.vcard {
+  padding: 0;
+  border: none;
+}
+
+ul {
+  @extend .disc;
+}

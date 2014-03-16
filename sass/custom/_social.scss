@@ -1,0 +1,34 @@
+.social {
+  margin: 2rem 0;
+
+  .symbol + .symbol {
+    margin-left: .5rem;
+  }
+
+  .symbol {
+    .fa {
+      font-size: 2rem;
+    }
+  }
+
+  a.symbol {
+    color: $gray-color;
+
+    &.twitter:hover {
+      color: $twitter-color;
+    }
+    &.github:hover {
+      color: $github-color;
+    }
+    &.googleplus:hover {
+      color: $googleplus-color;
+    }
+    &.linkedin:hover {
+      color: $linkedin-color;
+    }
+    &.rss:hover {
+      color: $rss-color;
+    }
+
+  }
+}

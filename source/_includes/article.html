@@ -17,9 +17,7 @@
   </header>
 {% endunless %}
 {% if index %}
-  {% if post.main_image_index_src %}
-  <img class="main-image left" src="/images/{{ post.main_image_index_src }}">
-  {% endif %}
+  {% include custom/main_image.html %}
   <div class="entry-content">{{ content | excerpt }}</div>
   {% capture excerpted %}{{ content | has_excerpt }}{% endcapture %}
   {% if excerpted == 'true' %}
@@ -28,8 +26,6 @@
     </footer>
   {% endif %}
 {% else %}
-{% if page.main_image_src %}
-  <div class="main-image"><img src="/images/{{ page.main_image_src }}"></div>
-{% endif %}
-<div class="entry-content">{{ content }}</div>
+  {% include custom/main_image.html %}
+  <div class="entry-content">{{ content }}</div>
 {% endif %}

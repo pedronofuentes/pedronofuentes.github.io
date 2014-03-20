@@ -1,0 +1,7 @@
+.main-navigation {
+  float: right;
+
+  @media #{$large-up} {
+    float: none;
+  }
+}

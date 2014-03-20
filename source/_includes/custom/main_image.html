@@ -1,0 +1,4 @@
+{% capture main_image_src %}{{ page.main_image_src }}{{ post.main_image_src }}{% endcapture %}
+{% if main_image_src %}
+    <div class="main-image"><img src="/images/{{ main_image_src }}"></div>
+{% endif %}

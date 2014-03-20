@@ -10,6 +10,8 @@ main_image_index_src: "posts/un-vistazo-a-xdebug-min.jpg"
 
 El pasado viernes 4 de octubre estuve en la reunión mensual de [@Symfony_VLC](https://twitter.com/Symfony_VLC) dando una charla sobre Xdebug. No es que sea un *ninja*, pero es una herramienta que me facilita bastante algunas cosas del trabajo diario.
 
+<!-- more -->
+
 Una de las cosas para las que viene bien es que te obliga a indagar un poco más, sea repasándote la documentación o viendo algunos posts.
 
 Para la preparación de la charla encontré algunos enlaces que me parecen interesantes (aparte de la [documentación](http://xdebug.org/docs/)):

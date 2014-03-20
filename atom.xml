@@ -4,7 +4,7 @@
   <title><![CDATA[Pedro Nofuentes]]></title>
   <link href="http://pedro.nofuent.es/atom.xml" rel="self"/>
   <link href="http://pedro.nofuent.es/"/>
-  <updated>2014-03-20T23:27:12+01:00</updated>
+  <updated>2014-03-20T23:38:36+01:00</updated>
   <id>http://pedro.nofuent.es/</id>
   <author>
     <name><![CDATA[Pedro Nofuentes]]></name>
@@ -149,6 +149,9 @@
     <updated>2013-10-11T17:15:00+02:00</updated>
     <id>http://pedro.nofuent.es/blog/2013/10/11/un-vistazo-a-xdebug</id>
     <content type="html"><![CDATA[<p>El pasado viernes 4 de octubre estuve en la reunión mensual de <a href="https://twitter.com/Symfony_VLC">@Symfony_VLC</a> dando una charla sobre Xdebug. No es que sea un <em>ninja</em>, pero es una herramienta que me facilita bastante algunas cosas del trabajo diario.</p>
+
+<!-- more -->
+
 
 <p>Una de las cosas para las que viene bien es que te obliga a indagar un poco más, sea repasándote la documentación o viendo algunos posts.</p>
 

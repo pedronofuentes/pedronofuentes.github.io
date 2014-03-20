@@ -4,7 +4,7 @@
   <title><![CDATA[Pedro Nofuentes]]></title>
   <link href="http://pedro.nofuent.es/atom.xml" rel="self"/>
   <link href="http://pedro.nofuent.es/"/>
-  <updated>2014-03-10T16:57:30+01:00</updated>
+  <updated>2014-03-20T23:27:12+01:00</updated>
   <id>http://pedro.nofuent.es/</id>
   <author>
     <name><![CDATA[Pedro Nofuentes]]></name>
@@ -12,6 +12,136 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Adding Composer to a legacy code project]]></title>
+    <link href="http://pedro.nofuent.es/blog/2014/03/20/adding-composer-to-a-legacy-code-project/"/>
+    <updated>2014-03-20T23:26:12+01:00</updated>
+    <id>http://pedro.nofuent.es/blog/2014/03/20/adding-composer-to-a-legacy-code-project</id>
+    <content type="html"><![CDATA[<p>In a project of legacy code that I&rsquo;m working with we have the needing to use some external libraries in order to do some tasks. Also, we planned to refactor the code step by step to introduce good practices, reduce coupling, code duplication, etc.</p>
+
+<p>At this point we had to implement a cron job to send users like a newsletter. This task was the perfect opportunity to create the basic scaffold using <a href="http://symfony.com/components">Symfony components</a> as it is isolated from the rest of the web application: we consume the data, but almost all the funcionality is new. Then, the first step was to introduce <a href="https://getcomposer.org/">Composer</a> to manage the vendor libraries and autoloading.</p>
+
+<!-- more -->
+
+
+<h2>Context</h2>
+
+<p>Before we start, some points about the project:</p>
+
+<ul>
+<li>The project doesn&rsquo;t follow any naming or structure convention. It uses classes and namespacing, but as an example the class names are lowercase and variable names are uppercase.</li>
+<li>The code has an autoloading function, but the intention is to replace it with Composer&rsquo;s autoloading.</li>
+<li>There are some libraries included in the folder structure.</li>
+<li>There are some files with functions defined between class files.</li>
+</ul>
+
+
+<p>The project has this folder structure:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>.
+</span><span class='line'>|____core
+</span><span class='line'>|____imagenes
+</span><span class='line'>|____modulos
+</span><span class='line'>|____objetos
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The folders containing classes are <code>core</code> and <code>modulos</code>, the other ones contain assets such images, javascript or templates.</p>
+
+<h2>Goal</h2>
+
+<p>The goal is to configure Composer to:</p>
+
+<ul>
+<li>Handle the autoloading of existing code.</li>
+<li>Handle the autoloading of new code following <a href="http://www.php-fig.org/">PHP-FIG</a> standards.</li>
+<li>Include files with functions.</li>
+<li>Handle vendor libraries.</li>
+</ul>
+
+
+<p>Then we decided to add the known <code>vendor</code> folder and <code>src</code> for the new code.</p>
+
+<h2>Configuring Composer</h2>
+
+<h3>Autoloading</h3>
+
+<p>The first step was configure autoloading. Insted the existing code naming is weird, it respects a class per file and the folder structure corresponding with the namespace, thus we can say that &ldquo;follows&rdquo; the <a href="http://www.php-fig.org/psr/psr-0/">PSR-0</a> for autoloading. For the new code we will follow the <a href="http://www.php-fig.org/psr/psr-4/">PSR-4</a>. Then we can configure autoloading like this:</p>
+
+<figure class='code'><figcaption><span>composer.json</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;autoload&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;psr-4&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nt">&quot;Acme\\&quot;</span><span class="p">:</span> <span class="s2">&quot;src/&quot;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nt">&quot;psr-0&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nt">&quot;&quot;</span><span class="p">:</span> <span class="s2">&quot;./&quot;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Previous existing libraries</h3>
+
+<p>At this point we have some existing libraries included in the code without namespace. Then we have to configure Composer to include them using the <a href="https://getcomposer.org/doc/04-schema.md#classmap"><code>classmap</code> references</a>.</p>
+
+<p>For example we are using the <a href="http://www.tcpdf.org">TCPDF</a> library and is stored in <code>core/app/libs</code>:</p>
+
+<figure class='code'><figcaption><span>composer.json</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;autoload&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;classmap&quot;</span><span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>            <span class="s2">&quot;core/app/libs/tcpdf.php&quot;</span>
+</span><span class='line'>        <span class="p">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Files with functions</h3>
+
+<p>Finally to include individual files in the project we use the <a href="https://getcomposer.org/doc/04-schema.md#files">files autoloading</a> implemented. For example, we have <code>modulos/sistema/funciones.php</code> that we want to include automatically:</p>
+
+<figure class='code'><figcaption><span>composer.json</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;autoload&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;files&quot;</span><span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>            <span class="s2">&quot;modulos/sistema/funciones.php&quot;</span>
+</span><span class='line'>        <span class="p">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Un vistazo a Xdebug]]></title>

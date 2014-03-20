@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Pedro Nofuentes</title>
+  <title>Adding Composer to a legacy code project - Pedro Nofuentes</title>
   <meta name="author" content="Pedro Nofuentes">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://pedro.nofuent.es">
+  <link rel="canonical" href="http://pedro.nofuent.es/blog/2014/03/20/adding-composer-to-a-legacy-code-project">
   <link href="/favicon.png" rel="icon">
   <link href="http://fonts.googleapis.com/css?family=Vollkorn:400italic,700italic,400,700|Oswald" rel="stylesheet" type="text/css">
 
@@ -121,12 +121,9 @@
 </div>
 
       <div id="content">
-        <div class="blog-index">
+        <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
       <p class="meta">
@@ -147,7 +144,7 @@
       </p>
     
     
-      <h1 class="entry-title"><a href="/blog/2014/03/20/adding-composer-to-a-legacy-code-project/">Adding Composer to a legacy code project</a></h1>
+      <h1 class="entry-title">Adding Composer to a legacy code project</h1>
     
   </header>
 
@@ -161,66 +158,59 @@
 
 <p>At this point we had to implement a cron job to send users like a newsletter. This task was the perfect opportunity to create the basic scaffold using <a href="http://symfony.com/components">Symfony components</a> as it is isolated from the rest of the web application: we consume the data, but almost all the funcionality is new. Then, the first step was to introduce <a href="https://getcomposer.org/">Composer</a> to manage the vendor libraries and autoloading.</p>
 
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/03/20/adding-composer-to-a-legacy-code-project/">Read on &rarr;</a>
-    </footer>
-  
+<!-- more -->
 
 
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <p class="meta">
-        
+<h2>Context</h2>
 
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-11T17:15:00+02:00" pubdate data-updated="true">Oct 11<span>th</span>, 2013</time>
-        
-      </p>
-    
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/11/un-vistazo-a-xdebug/">Un vistazo a Xdebug</a></h1>
-    
-  </header>
-
-
-  
-
-    <div class="main-image"><img src="/images/posts/un-vistazo-a-xdebug.jpg"></div>
-
-
-  <div class="entry-content"><p>El pasado viernes 4 de octubre estuve en la reunión mensual de <a href="https://twitter.com/Symfony_VLC">@Symfony_VLC</a> dando una charla sobre Xdebug. No es que sea un <em>ninja</em>, pero es una herramienta que me facilita bastante algunas cosas del trabajo diario.</p>
-
-<p>Una de las cosas para las que viene bien es que te obliga a indagar un poco más, sea repasándote la documentación o viendo algunos posts.</p>
-
-<p>Para la preparación de la charla encontré algunos enlaces que me parecen interesantes (aparte de la <a href="http://xdebug.org/docs/">documentación</a>):</p>
+<p>Before we start, some points about the project:</p>
 
 <ul>
-<li> <a href="http://devincharge.com/debug-cli-remote-server/">Debug PHP CLI on Remote Server with Xdebug and PHPStorm</a></li>
-<li> <a href="http://mark-story.com/posts/view/remote-debugging-with-vim-and-xdebug">Remote debugging with vim and xdebug</a></li>
-<li> <a href="https://github.com/joonty/vdebug">Vdebug</a></li>
+<li>The project doesn&rsquo;t follow any naming or structure convention. It uses classes and namespacing, but as an example the class names are lowercase and variable names are uppercase.</li>
+<li>The code has an autoloading function, but the intention is to replace it with Composer&rsquo;s autoloading.</li>
+<li>There are some libraries included in the folder structure.</li>
+<li>There are some files with functions defined between class files.</li>
 </ul>
 
 
-<p>En la charla mostré un pequeño ejemplo de cómo configurar Xdebug con PHPStorm en un servidor de <a href="https://github.com/pedronofuentes/symfonyvalencia-vagrant">desarrollo montado sobre Vagrant</a>. Al archivo de configuración de Puppet del repositorio hay que añadirle la configuración de la IP del host remoto:</p>
+<p>The project has this folder structure:</p>
 
-<figure class='code'><figcaption><span>maifests/default.pp</span><a href='https://github.com/pedronofuentes/symfonyvalencia-vagrant/blob/master/manifests/default.pp'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>.
+</span><span class='line'>|____core
+</span><span class='line'>|____imagenes
+</span><span class='line'>|____modulos
+</span><span class='line'>|____objetos
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The folders containing classes are <code>core</code> and <code>modulos</code>, the other ones contain assets such images, javascript or templates.</p>
+
+<h2>Goal</h2>
+
+<p>The goal is to configure Composer to:</p>
+
+<ul>
+<li>Handle the autoloading of existing code.</li>
+<li>Handle the autoloading of new code following <a href="http://www.php-fig.org/">PHP-FIG</a> standards.</li>
+<li>Include files with functions.</li>
+<li>Handle vendor libraries.</li>
+</ul>
+
+
+<p>Then we decided to add the known <code>vendor</code> folder and <code>src</code> for the new code.</p>
+
+<h2>Configuring Composer</h2>
+
+<h3>Autoloading</h3>
+
+<p>The first step was configure autoloading. Insted the existing code naming is weird, it respects a class per file and the folder structure corresponding with the namespace, thus we can say that &ldquo;follows&rdquo; the <a href="http://www.php-fig.org/psr/psr-0/">PSR-0</a> for autoloading. For the new code we will follow the <a href="http://www.php-fig.org/psr/psr-4/">PSR-4</a>. Then we can configure autoloading like this:</p>
+
+<figure class='code'><figcaption><span>composer.json</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -230,38 +220,73 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>puphpet::ini { 'xdebug':
-</span><span class='line'>     value =&gt; [
-</span><span class='line'>          …
-</span><span class='line'>          'debug.remote_host = 192.168.56.1',
-</span><span class='line'>          …
-</span><span class='line'>     ],
-</span><span class='line'>     ini     =&gt; '/etc/php5/conf.d/zzz_xdebug.ini',
-</span><span class='line'>     notify     =&gt; Service['apache'],
-</span><span class='line'>     require      =&gt; Class['php'],
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;autoload&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;psr-4&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nt">&quot;Acme\\&quot;</span><span class="p">:</span> <span class="s2">&quot;src/&quot;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="nt">&quot;psr-0&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nt">&quot;&quot;</span><span class="p">:</span> <span class="s2">&quot;./&quot;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>&mdash;</p>
+<h3>Previous existing libraries</h3>
 
-<script async class="speakerdeck-embed" data-id="813b5e50140601318e8326b064201532" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+<p>At this point we have some existing libraries included in the code without namespace. Then we have to configure Composer to include them using the <a href="https://getcomposer.org/doc/04-schema.md#classmap"><code>classmap</code> references</a>.</p>
+
+<p>For example we are using the <a href="http://www.tcpdf.org">TCPDF</a> library and is stored in <code>core/app/libs</code>:</p>
+
+<figure class='code'><figcaption><span>composer.json</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;autoload&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;classmap&quot;</span><span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>            <span class="s2">&quot;core/app/libs/tcpdf.php&quot;</span>
+</span><span class='line'>        <span class="p">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
+<h3>Files with functions</h3>
+
+<p>Finally to include individual files in the project we use the <a href="https://getcomposer.org/doc/04-schema.md#files">files autoloading</a> implemented. For example, we have <code>modulos/sistema/funciones.php</code> that we want to include automatically:</p>
+
+<figure class='code'><figcaption><span>composer.json</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;autoload&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;files&quot;</span><span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>            <span class="s2">&quot;modulos/sistema/funciones.php&quot;</span>
+</span><span class='line'>        <span class="p">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <p class="meta">
-        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Pedro Nofuentes</span></span>
+
+      
 
 
 
@@ -273,39 +298,44 @@
   
 
 
-<time datetime="2013-09-27T11:15:00+02:00" pubdate data-updated="true">Sep 27<span>th</span>, 2013</time>
-        
-      </p>
-    
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/27/it-s-alive/">It&#8217;s alive!!!</a></h1>
-    
-  </header>
+<time datetime="2014-03-20T23:26:12+01:00" pubdate data-updated="true">Mar 20<span>th</span>, 2014</time>
+      
 
-
+<span class="categories">
   
+    <a class='category' href='/blog/categories/php/'>PHP</a>, <a class='category' href='/blog/categories/composer/'>composer</a>, <a class='category' href='/blog/categories/legacy-code/'>legacy code</a>
+  
+</span>
 
-    <div class="main-image"><img src="/images/posts/it-s-alive.jpg"></div>
 
-
-  <div class="entry-content"><p>After much time thinking about writing a blog, finally it&rsquo;s alive! As it&rsquo;s my personal blog I will write about stuff that interests me :) Concretely I want to write about coding, problems that I find, tips and the big amount of stuff that I would learn.</p>
-
-<p>My main development stack is PHP, Javascript, HTML, CSS, LESS… but I love to try new languages, tools, ways to solve problems, etc.</p>
-
-<p>This is because I built the blog with <a href="http://octopress.org">Octopress</a>. I based my theme in the classic theme and used <a href="http://foundation.zurb.com">Foundation</a> as a bootstrap. I called <a href="https://github.com/pedronofuentes/octozurb">Octozurb</a> (I know, it isn&rsquo;t quite original) and if you want fork it, but please, let me learn from your improvements.</p>
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://pedro.nofuent.es/blog/2014/03/20/adding-composer-to-a-legacy-code-project/" data-via="pedronofuentes" data-counturl="http://pedro.nofuent.es/blog/2014/03/20/adding-composer-to-a-legacy-code-project/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
 
+    
+    <p class="meta post-navitagion clearfix">
+      
+        <a class="basic-alignment left" href="/blog/2013/10/11/un-vistazo-a-xdebug/" title="Previous Post: Un vistazo a Xdebug">&laquo; Un vistazo a Xdebug</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
+  </section>
+
+</div>
+
 <aside class="sidebar">
   
     <section>
@@ -321,7 +351,7 @@
       </li>
     
       <li class="post">
-        <a href="/blog/2013/09/27/it-s-alive/">It&#8217;s alive!!!</a>
+        <a href="/blog/2013/09/27/it-s-alive/">It's alive!!!</a>
       </li>
     
   </ul>
@@ -330,7 +360,7 @@
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/pedronofuentes">@pedronofuentes</a> on GitHub
@@ -360,6 +390,7 @@
   
 </aside>
 
+
       </div>
     </div>
   </div>
@@ -376,7 +407,10 @@
       var disqus_shortname = 'pedronofuentes';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://pedro.nofuent.es/blog/2014/03/20/adding-composer-to-a-legacy-code-project/';
+        var disqus_url = 'http://pedro.nofuent.es/blog/2014/03/20/adding-composer-to-a-legacy-code-project/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: PHP | Pedro Nofuentes]]></title>
-  <link href="http://pedro.nofuent.es/blog/categories/php/atom.xml" rel="self"/>
+  <title><![CDATA[Category: legacy code | Pedro Nofuentes]]></title>
+  <link href="http://pedro.nofuent.es/blog/categories/legacy-code/atom.xml" rel="self"/>
   <link href="http://pedro.nofuent.es/"/>
   <updated>2014-03-20T23:27:12+01:00</updated>
   <id>http://pedro.nofuent.es/</id>

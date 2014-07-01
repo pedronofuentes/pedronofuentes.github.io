@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xdebug | Pedro Nofuentes]]></title>
   <link href="http://pedro.nofuent.es/blog/categories/xdebug/atom.xml" rel="self"/>
   <link href="http://pedro.nofuent.es/"/>
-  <updated>2014-03-20T23:38:36+01:00</updated>
+  <updated>2014-07-01T23:15:28+02:00</updated>
   <id>http://pedro.nofuent.es/</id>
   <author>
     <name><![CDATA[Pedro Nofuentes]]></name>
@@ -12,6 +12,78 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Debugging console with XDebug in a remote server]]></title>
+    <link href="http://pedro.nofuent.es/blog/2014/07/01/debugging-console-with-xdebug-in-a-remote-server/"/>
+    <updated>2014-07-01T20:45:05+02:00</updated>
+    <id>http://pedro.nofuent.es/blog/2014/07/01/debugging-console-with-xdebug-in-a-remote-server</id>
+    <content type="html"><![CDATA[<p>These days I&rsquo;ve been coding some commands to handle a newsletter with a work queue, so I needed the XDebug&rsquo;s benefits to debug the commands. In a previous post I published the <a href="/blog/2013/10/11/un-vistazo-a-xdebug/">talk I did in Symfony VLC about the goodies of XDebug</a>, but it lacked a part about debugging php scripts.</p>
+
+<p>I usually use a dev server with Vagrant and provisioned with Puppet as dev environment. To get the basic configuration of the box I use <a href="http://www.puphpet.com">Puphpet</a>. Then I will explain what I did to use XDebug in this environment, that it&rsquo;s pretty straight forward:</p>
+
+<ol>
+<li>Configure XDebug to enable the profiler</li>
+<li>Configure console&rsquo;s environment</li>
+<li>Debug!</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h2>XDebug</h2>
+
+<p>The base configuration that provides Puphet normally it&rsquo;s like this:</p>
+
+<p>```bash</p>
+
+<p>xdebug.default_enable=1
+xdebug.remote_autostart=0
+xdebug.remote_connect_back=0
+xdebug.remote_enable=1
+xdebug.remote_handler=dbgp
+xdebug.remote_port=&ldquo;9000&rdquo;
+xdebug.remote_host=&ldquo;192.168.56.1&rdquo;</p>
+
+<p>```</p>
+
+<p>A remarkable point of this configuration is that with <code>xdebug.remote_connect_back=0</code> we tell XDebug that we will provide the IP address where it has to send the debug info. XDebug looks for <code>REMOTE_ADDRESS</code> if we connect through HTTP but in our case we would have to configure it via PHP config (<code>xdebug.remote_host</code>) or in our console environment.</p>
+
+<p>In this case, as I am using a Vagrant box, I configure the host IP directly. All petitions will come from here.</p>
+
+<h2>Console&rsquo;s environment</h2>
+
+<p>In one hand we have to configure a server name in the environment. Thus our IDE will look for the path mapping configuration of this server.</p>
+
+<p><code>bash
+export PHP_IDE_CONFIG="serverName=our-server.dev"
+</code></p>
+
+<p>In the other hand we have to tell XDebug to start debugging.</p>
+
+<p><code>bash
+export XDEBUG_CONFIG="idekey=PHPSTORM"
+</code></p>
+
+<h2>Debug!</h2>
+
+<p>To start debugging at this point is as simple as to set a breakpoint at our IDE and execute the script at the server.</p>
+
+<p><code>bash
+php our_script.php
+</code></p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://xdebug.org/docs/remote">XDebug docs</a></li>
+<li><a href="https://www.adayinthelifeof.nl/2012/12/20/debugging-remote-cli-with-phpstorm/">Debugging remote CLI with phpstorm</a></li>
+<li><a href="http://stackoverflow.com/questions/16518262/xdebug-how-to-debug-remote-console-application">XDebug: how to debug remote console application? &ndash; StackOverflow</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Un vistazo a Xdebug]]></title>
